@@ -6,9 +6,15 @@
                   <div class="card-body">
                       <h4>DATA POST</h4>
                       <hr>
-
-                      <router-link :to="{name: 'post.create'}" class="btn btn-md btn-success">+</router-link>
-
+                      <div class="row">
+                          <div class="col col-md-10">
+                              <router-link :to="{name: 'post.create'}" class="btn btn-md btn-success">+</router-link>
+                          </div>
+                          <div class="col col-md-2">
+                              <router-link :to="{name: 'post.create'}" class="btn btn-md btn-outline-light btn-primary">Menu Lain</router-link>
+                          </div>
+                      </div>
+                      
                       <table class="table table-sripped table-bordered mt-4">
                           <thead class="thead-light"> 
                               <tr>
