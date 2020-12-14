@@ -80,19 +80,12 @@ export default {
         })
     },
     methods: {
-    getBadge (status) {
-      switch (status) {
-        case 'Active': return 'success'
-        case 'Inactive': return 'secondary'
-        case 'Pending': return 'warning'
-        case 'Banned': return 'danger'
-        default: 'primary'
-      }
-    },
     rowClicked (post, index) {
+        alert(index)
       this.$router.push({path: `posts/${index + 1}`}).catch(()=>{})
     },
     pageChange (val) {
+        alert(val)
       this.$router.push({ query: { page: val }}).catch(()=>{})
     }
   }
