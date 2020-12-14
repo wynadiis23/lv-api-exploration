@@ -11,7 +11,7 @@
                               <router-link :to="{name: 'post.create'}" class="btn btn-md btn-success">+</router-link>
                           </div>
                           <div class="col col-md-2">
-                              <router-link :to="{name: 'post.create'}" class="btn btn-md btn-outline-light btn-primary">Menu Lain</router-link>
+                              <router-link :to="{name: 'new'}" class="btn btn-md btn-outline-light btn-primary">Menu Lain</router-link>
                           </div>
                       </div>
                       
