@@ -3,11 +3,11 @@
   <CRow>
     <CCol col="12" sm="4">
       <CWidgetIcon
-        header="$1.999,50"
-        text="Income"
+        :header="countActor()"
+        text="Actors"
         color="primary"
       >
-        <CIcon name="cil-settings"/>
+        <CIcon name="cil-people"/>
       </CWidgetIcon>
     </CCol>
     <CCol col="12" sm="4">
@@ -516,8 +516,17 @@ export default {
   },
   data () {
     return {
-
+      actors: null,
     }
+  },
+  mounted () {
+    axios
+    .get('http://localhost:8000/api/actor')
+    .then(response => {
+      
+      this.actors = response.data.data
+      console.log(this.actors.length)
+    })
   },
   methods: {
     color (value) {
@@ -532,7 +541,12 @@ export default {
         $color = 'danger'
       }
       return $color
+    },
+    countActor (){
+      let count
+      return count = this.actors.length
     }
-  }
+  },
+  
 }
 </script>

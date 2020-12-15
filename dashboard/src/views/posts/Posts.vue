@@ -77,6 +77,7 @@ export default {
         .get('http://localhost:8000/api/post')
         .then(response => {
             this.posts = response.data.data
+            console.log(this.post)
         })
     },
     methods: {

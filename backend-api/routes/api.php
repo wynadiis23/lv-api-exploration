@@ -19,3 +19,5 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 Route::resource('/post', PostController::class);
+
+Route::resource('/actor', ActorController::class);
