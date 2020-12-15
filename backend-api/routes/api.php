@@ -21,3 +21,6 @@ use Illuminate\Support\Facades\Route;
 Route::resource('/post', PostController::class);
 
 Route::resource('/actor', ActorController::class);
+Route::get('/customer', [CustomerController::class, 'index']);
+
+Route::get('/lengthList', [FilmController::class, 'getLengthGroupBy']);
