@@ -3,7 +3,7 @@
   <CRow>
     <CCol col="12" sm="4">
       <CWidgetIcon
-        :header="countActor()"
+        :header=countActor()
         text="Actors"
         color="primary"
       >
@@ -40,7 +40,7 @@
       </CWidgetIcon>
     </CCol>
   </CRow>
- 
+  
     <CCard>
       <CCardBody>
         <CRow>
@@ -121,27 +121,50 @@
         </CRow>
       </CCardFooter>
     </CCard>
-    <CRow>
-      <CCol md="12">
-        <CCard>
-          
-        </CCard>
-      </CCol>
-    </CRow>
+    <CCard>
+      <CCardBody>
+        <CRow>
+          <CCol sm="5">
+            <h4 id="traffic" class="card-title mb-0">List of Film's Length</h4>
+            <div class="small text-muted">November 2017</div>
+          </CCol>
+          <CCol sm="12">
+              <CChartBar
+                style="height:500px"
+                :datasets="[
+                  {
+                    data:getCountLengthOnly(),
+                    backgroundColor: '#FFB2B2',
+                    label: 'Film Length',
+                  }
+                ]"
+                :labels=getLengthOnly()
+                :options="{ maintainAspectRatio: false }"
+              />
+          </CCol>
+        </CRow>
+      </CCardBody>
+    </CCard>
     
   </div>
 </template>
 
 <script>
+
+
 //import untuk get data dari api
 import axios from 'axios'
-import {onMounted, ref} from 'vue'
+import Vue from 'vue'
 
+//importing Vue plugin
+import CoreuiVueCharts from '@coreui/vue-chartjs'
+Vue.use(CoreuiVueCharts)
 
 import MainChartExample from './charts/MainChartExample'
 import WidgetsDropdown from './widgets/WidgetsDropdown'
 import WidgetsBrand from './widgets/WidgetsBrand'
 
+let listLengRaw = null
 export default {
   //fungsi get data dari api
   setup () {
@@ -156,9 +179,11 @@ export default {
   data () {
     return {
       actors: null,
-      countCustomer: null
+      countCustomer: null,
+      
     }
   },
+  
   mounted () {
     // axios
     // .get('http://localhost:8000/api/actor')
@@ -167,14 +192,22 @@ export default {
     //   this.actors = response.data.data
     //   console.log(this.actors.length)
     // })
+    //chart
+
     axios.all([
       axios.get('http://localhost:8000/api/actor'),
-      axios.get('http://localhost:8000/api/customer')
+      axios.get('http://localhost:8000/api/customer'),
+      axios.get('http://localhost:8000/api/lengthList')
     ])
-    .then(axios.spread((actorsRes, customerRes) => {
+    .then(axios.spread((actorsRes, customerRes, lenghList) => {
       this.actors = actorsRes.data.data,
       this.countCustomer = customerRes.data.data.length
+      this.listLengRaw = lenghList.data.data
+      console.log(this.listLengRaw.length)
+
+      //console.log(this.listLengRaw[0]['count'])
     }))
+    
   },
   methods: {
     color (value) {
@@ -193,8 +226,28 @@ export default {
     countActor (){
       let count
       return count = this.actors.length
+    },
+    ///////////////from film length api
+    //get from object
+    getLengthOnly() {
+      let onlyLength = []
+      let i = 0
+      for (i = 0; i < this.listLengRaw.length; i++) {
+        onlyLength.push(this.listLengRaw[i]['length'])
+      }
+      console.log(onlyLength)
+      return onlyLength
+    },
+    getCountLengthOnly() {
+      let onlyCountLength = []
+      let i = 0
+      for (i = 0; i < this.listLengRaw.length; i++) {
+        onlyCountLength.push(this.listLengRaw[i]['count'])
+      }
+      return onlyCountLength
     }
   },
+  
   
 }
 </script>
