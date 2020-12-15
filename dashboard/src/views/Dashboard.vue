@@ -135,7 +135,7 @@
                   {
                     data:getCountLengthOnly(),
                     backgroundColor: '#FFB2B2',
-                    label: 'Film Length',
+                    label: 'Film Length (minutes)',
                   }
                 ]"
                 :labels=getLengthOnly()
