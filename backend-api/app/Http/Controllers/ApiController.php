@@ -12,6 +12,8 @@ class ApiController extends Controller
     //get list category with sum of the certain category
     public function getListCountCategory()
     {
-
+        $listCatCount = DB::table('category')
+                        ->select(DB::raw('category.name, count(*)'))
+                        ->innerJoin()
     }
 }
