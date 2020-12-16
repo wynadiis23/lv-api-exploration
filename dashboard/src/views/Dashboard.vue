@@ -145,6 +145,48 @@
         </CRow>
       </CCardBody>
     </CCard>
+    <CRow>
+      <CCol sm="6">
+        <CCard>
+          <CCardBody>
+            <CRow>
+              <CCol sm="12">
+                <h4 id="traffic" class="card-title mb-0">Chart of Film's Category</h4>
+                <div class="small text-muted">November 2017</div>
+              </CCol>
+              <CCol sm="12">
+                  <CChartBar
+                    style="height:300px"
+                    :datasets="[
+                      {
+                        data:getCountLengthOnly(),
+                        backgroundColor: '#FFB2B2',
+                        label: 'Film Length (minutes)',
+                      }
+                    ]"
+                    :labels=getLengthOnly()
+                    :options="{ maintainAspectRatio: false }"
+                  />
+              </CCol>
+            </CRow>
+          </CCardBody>
+          <CCardBody>
+            This content is in card body component.
+          </CCardBody>
+          <CCardFooter>
+            Standard Footer.
+          </CCardFooter>
+        </CCard>
+      </CCol>
+      <CCol sm="6">
+        <CCard bodyWrapper>
+          Content is rendered inside CCardBody component.
+        </CCard>
+      </CCol>
+    </CRow>
+    <CCard>
+      
+    </CCard>
     
   </div>
 </template>
