@@ -13,7 +13,15 @@ class ApiController extends Controller
     public function getListCountCategory()
     {
         $listCatCount = DB::table('category')
+                        ->join('film_category', 'film_category.category_id', '=', 'category.category_id')
                         ->select(DB::raw('category.name, count(*)'))
-                        ->innerJoin()
+                        ->groupBy('category.name')
+                        ->get();
+        
+        return response()->json([
+            'success' => true,
+            'message' => 'Jumlah berdasarkan kategory film',
+            'data' => $listCatCount
+        ]);
     }
 }

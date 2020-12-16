@@ -23,4 +23,8 @@ Route::resource('/post', PostController::class);
 Route::resource('/actor', ActorController::class);
 Route::get('/customer', [CustomerController::class, 'index']);
 
+//route film length
 Route::get('/lengthList', [FilmController::class, 'getLengthGroupBy']);
+
+//route film category
+Route::get('/getListCountCategory', [ApiController::class, 'getListCountCategory']);
