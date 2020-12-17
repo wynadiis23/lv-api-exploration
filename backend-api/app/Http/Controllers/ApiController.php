@@ -34,7 +34,7 @@ class ApiController extends Controller
     {
         $listTotalAmount = DB::table('customer')
                             ->join('payment', 'customer.customer_id', '=', 'payment.customer_id')
-                            ->select(DB::raw('customer.first_name, customer.last_name, SUM(payment.amount)'))
+                            ->select(DB::raw('customer.customer_id, customer.first_name, customer.last_name, SUM(payment.amount)'))
                             ->groupBy('customer.customer_id')
                             ->orderBy('customer.customer_id')
                             ->get();
@@ -45,5 +45,19 @@ class ApiController extends Controller
             'data' => $listTotalAmount
         ]);
 
+    }
+
+    //total payment
+    public function getTotalPayment()
+    {
+        $totalPayment = DB::table('payment')
+                        ->select(DB::raw('SUM(amount)'))
+                        ->get();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Total payment',
+            'data' => $totalPayment
+        ]);
     }
 }

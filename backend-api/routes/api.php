@@ -31,3 +31,4 @@ Route::get('/getListCountCategory', [ApiController::class, 'getListCountCategory
 
 //payment
 Route::get('/getTotalAmountPerId', [ApiController::class, 'getTotalAmountPaymentId']);
+Route::get('/getTotalPayment', [ApiController::class, 'getTotalPayment']);
