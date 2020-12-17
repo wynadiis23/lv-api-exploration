@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\FilmCategory;
+use App\Models\Payment;
+use App\Models\Customer;
+
+
 use Illuminate\Support\Facades\DB;
 
 class ApiController extends Controller
@@ -23,5 +27,23 @@ class ApiController extends Controller
             'message' => 'Jumlah berdasarkan kategory film',
             'data' => $listCatCount
         ]);
+    }
+
+    //get customer total amount payment per id
+    public function getTotalAmountPaymentId()
+    {
+        $listTotalAmount = DB::table('customer')
+                            ->join('payment', 'customer.customer_id', '=', 'payment.customer_id')
+                            ->select(DB::raw('customer.first_name, customer.last_name, SUM(payment.amount)'))
+                            ->groupBy('customer.customer_id')
+                            ->orderBy('customer.customer_id')
+                            ->get();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Amount of payment per ID',
+            'data' => $listTotalAmount
+        ]);
+
     }
 }
