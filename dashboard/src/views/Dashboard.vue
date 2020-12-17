@@ -155,23 +155,20 @@
                 <div class="small text-muted">November 2017</div>
               </CCol>
               <CCol sm="12">
-                  <CChartBar
+                  <CChartDoughnut
                     style="height:300px"
                     :datasets="[
                       {
-                        data:getCountLengthOnly(),
+                        data:getOnlyCatCount(),
                         backgroundColor: '#FFB2B2',
-                        label: 'Film Length (minutes)',
+                        label: 'Film Lengtxxh (minutes)',
                       }
                     ]"
-                    :labels=getLengthOnly()
+                    :labels=getOnlyCatName()
                     :options="{ maintainAspectRatio: false }"
                   />
               </CCol>
             </CRow>
-          </CCardBody>
-          <CCardBody>
-            This content is in card body component.
           </CCardBody>
           <CCardFooter>
             Standard Footer.
@@ -182,6 +179,7 @@
         <CCard bodyWrapper>
           Content is rendered inside CCardBody component.
         </CCard>
+
       </CCol>
     </CRow>
     <CCard>
@@ -206,7 +204,11 @@ import MainChartExample from './charts/MainChartExample'
 import WidgetsDropdown from './widgets/WidgetsDropdown'
 import WidgetsBrand from './widgets/WidgetsBrand'
 
+//length film
 let listLengRaw = null
+
+//list of film category with counting
+let listCountCategory = null
 export default {
   //fungsi get data dari api
   setup () {
@@ -239,13 +241,19 @@ export default {
     axios.all([
       axios.get('http://localhost:8000/api/actor'),
       axios.get('http://localhost:8000/api/customer'),
-      axios.get('http://localhost:8000/api/lengthList')
+      axios.get('http://localhost:8000/api/lengthList'),
+      //get category list and count
+      axios.get('http://localhost:8000/api/getListCountCategory')
     ])
-    .then(axios.spread((actorsRes, customerRes, lenghList) => {
+    .then(axios.spread((actorsRes, customerRes, lenghList, listCountCategory) => {
       this.actors = actorsRes.data.data,
       this.countCustomer = customerRes.data.data.length
+      //list film length 
       this.listLengRaw = lenghList.data.data
-      console.log(this.listLengRaw.length)
+
+      //list film category and count
+      this.listCountCategory = listCountCategory.data.data
+      // console.log(this.listLengRaw.length)
 
       //console.log(this.listLengRaw[0]['count'])
     }))
@@ -287,6 +295,25 @@ export default {
         onlyCountLength.push(this.listLengRaw[i]['count'])
       }
       return onlyCountLength
+    },
+    //////////from film category count api
+    //get film category and count
+    getOnlyCatName() {
+      let catName = []
+      let i = 0
+      for (i = 0; i< this.listCountCategory.length; i++) {
+        catName.push(this.listCountCategory[i]['name'])
+      }
+      console.log(catName)
+      return catName
+    },
+    getOnlyCatCount() {
+      let catCount = []
+      let i = 0
+      for(i = 0; i < this.listCountCategory.length; i++) {
+        catCount.push(this.listCountCategory[i]['count'])
+      }
+      return catCount
     }
   },
   
