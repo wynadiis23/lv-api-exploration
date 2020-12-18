@@ -25,6 +25,11 @@
         </CHeaderNavLink>
       </CHeaderNavItem>
       <CHeaderNavItem class="px-3">
+        <CHeaderNavLink to="/customers" exact>
+          Customers
+        </CHeaderNavLink>
+      </CHeaderNavItem>
+      <CHeaderNavItem class="px-3">
         <CHeaderNavLink to="/posts">
           Posts
         </CHeaderNavLink>

@@ -21,8 +21,8 @@
     </CCol>
     <CCol col="12" sm="4">
       <CWidgetIcon
-        header="$1.999,50"
-        text="Income"
+        :header=totalPayment
+        text="Total Payment"
         color="info"
       >
         <CIcon name="cil-laptop"/>
@@ -150,8 +150,8 @@
         <CCard>
           <CCardBody>
             <CRow>
-              <CCol sm="12">
-                <h4 id="traffic" class="card-title mb-0">Chart of Film's Category</h4>
+              <CCol sm="5">
+                <h4 id="" class="card-title mb-0">Chart of Film's Category</h4>
                 <div class="small text-muted">November 2017</div>
               </CCol>
               <CCol sm="12">
@@ -170,21 +170,28 @@
               </CCol>
             </CRow>
           </CCardBody>
-          <CCardFooter>
-            Standard Footer.
-          </CCardFooter>
         </CCard>
       </CCol>
       <CCol sm="6">
-        <CCard bodyWrapper>
-          Content is rendered inside CCardBody component.
+        <CCard>
+          <CCardBody>
+            <CRow>
+              <CCol sm="5">
+                <h4 id="" class="card-title mb-0">List of Most Payment Customer</h4>
+                <div class="small text-muted">November 2017</div>
+              </CCol>
+              <CCol sm="12">
+                  <CDataTable
+                    style="height:300px"
+                    :items="listTotalAmountPerId"
+                  >
+                  </CDataTable>
+              </CCol>
+            </CRow>
+          </CCardBody>
         </CCard>
-
       </CCol>
     </CRow>
-    <CCard>
-      
-    </CCard>
     
   </div>
 </template>
@@ -196,11 +203,10 @@
 import axios from 'axios'
 import Vue from 'vue'
 
-//importing Vue plugin
+//importing Vue plugin for charts
 import CoreuiVueCharts from '@coreui/vue-chartjs'
 Vue.use(CoreuiVueCharts)
 
-import MainChartExample from './charts/MainChartExample'
 import WidgetsDropdown from './widgets/WidgetsDropdown'
 import WidgetsBrand from './widgets/WidgetsBrand'
 
@@ -209,14 +215,10 @@ let listLengRaw = null
 
 //list of film category with counting
 let listCountCategory = null
-export default {
-  //fungsi get data dari api
-  setup () {
 
-  },
+export default {
   name: 'Dashboard',
   components: {
-    MainChartExample,
     WidgetsDropdown,
     WidgetsBrand
   },
@@ -224,6 +226,7 @@ export default {
     return {
       actors: null,
       countCustomer: null,
+      totalPayment: null
       
     }
   },
@@ -243,9 +246,15 @@ export default {
       axios.get('http://localhost:8000/api/customer'),
       axios.get('http://localhost:8000/api/lengthList'),
       //get category list and count
-      axios.get('http://localhost:8000/api/getListCountCategory')
+      axios.get('http://localhost:8000/api/getListCountCategory'),
+
+      //get total payment
+      axios.get('http://localhost:8000/api/getTotalPayment'),
+
+      //total amount perID
+      axios.get('http://localhost:8000/api/getTotalMostAmountPerId')
     ])
-    .then(axios.spread((actorsRes, customerRes, lenghList, listCountCategory) => {
+    .then(axios.spread((actorsRes, customerRes, lenghList, listCountCategory, getTotalPayment, getListTotalAmountPerId) => {
       this.actors = actorsRes.data.data,
       this.countCustomer = customerRes.data.data.length
       //list film length 
@@ -256,6 +265,12 @@ export default {
       // console.log(this.listLengRaw.length)
 
       //console.log(this.listLengRaw[0]['count'])
+
+      //total payment
+      this.totalPayment = getTotalPayment.data.data[0].sum
+
+      //totla amount per id
+      this.listTotalAmountPerId = getListTotalAmountPerId.data.data
     }))
     
   },
@@ -314,7 +329,8 @@ export default {
         catCount.push(this.listCountCategory[i]['count'])
       }
       return catCount
-    }
+    },
+    
   },
   
   

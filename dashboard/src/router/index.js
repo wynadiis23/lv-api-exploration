@@ -61,6 +61,10 @@ const User = () => import('@/views/users/User')
 const Post = () => import('@/views/posts/Post')
 const Posts = () => import('@/views/posts/Posts')
 
+//customers
+const Customer = () => import('@/views/customers/Customer')
+const Customers = () => import('@/views/customers/Customers')
+
 Vue.use(Router)
 
 export default new Router({
@@ -143,7 +147,7 @@ function configRoutes () {
         {
           path: 'posts',
           meta: {
-            label: 'Post'
+            label: 'Posts'
           },
           component: {
             render(c) {
@@ -163,6 +167,33 @@ function configRoutes () {
               },
               name: 'Post',
               component: Post
+            }
+          ]
+        },
+        //customers and customers details route
+        {
+          path: 'customers',
+          meta: {
+            label: 'Customers'
+          },
+          component: {
+            render(c) {
+              return c('router-view')
+            }
+          },
+          children: [
+            {
+              path: '',
+              name: 'Customers',
+              component: Customers
+            },
+            {
+              path: 'id',
+              meta: {
+              label: 'Customer Details'
+            },
+            name: 'Customer',
+            component: Customers
             }
           ]
         },
