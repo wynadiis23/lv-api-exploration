@@ -30,5 +30,5 @@ Route::get('/lengthList', [FilmController::class, 'getLengthGroupBy']);
 Route::get('/getListCountCategory', [ApiController::class, 'getListCountCategory']);
 
 //payment
-Route::get('/getTotalAmountPerId', [ApiController::class, 'getTotalAmountPaymentId']);
+Route::get('/getTotalMostAmountPerId', [ApiController::class, 'getTotalMostAmountPaymentId']);
 Route::get('/getTotalPayment', [ApiController::class, 'getTotalPayment']);

@@ -30,13 +30,14 @@ class ApiController extends Controller
     }
 
     //get customer total amount payment per id
-    public function getTotalAmountPaymentId()
+    public function getTotalMostAmountPaymentId()
     {
         $listTotalAmount = DB::table('customer')
                             ->join('payment', 'customer.customer_id', '=', 'payment.customer_id')
                             ->select(DB::raw('customer.customer_id, customer.first_name, customer.last_name, SUM(payment.amount)'))
                             ->groupBy('customer.customer_id')
-                            ->orderBy('customer.customer_id')
+                            ->orderByDesc(DB::raw('SUM(payment.amount)'))
+                            ->limit(5)
                             ->get();
 
         return response()->json([
