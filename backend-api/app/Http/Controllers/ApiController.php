@@ -48,6 +48,25 @@ class ApiController extends Controller
 
     }
 
+    //get customer's country list
+    public function getCustomerCountryList()
+    {
+        $customerCountryList = DB::table('country')
+                                ->join('city', 'country.country_id', '=', 'city.country_id')
+                                ->join('address', 'city.city_id', '=', 'address.city_id')
+                                ->join('customer', 'customer.address_id', '=', 'address.address_id')
+                                ->select(DB::raw('country.country, COUNT(customer.*)'))
+                                ->groupBy('country.country')
+                                ->orderBy('country')
+                                ->get();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Customers country list',
+            'data' => $customerCountryList
+        ]);
+    }
+
     //total payment
     public function getTotalPayment()
     {
