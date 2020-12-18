@@ -40,158 +40,92 @@
       </CWidgetIcon>
     </CCol>
   </CRow>
-  
-    <CCard>
-      <CCardBody>
-        <CRow>
-          <CCol sm="5">
-            <h4 id="traffic" class="card-title mb-0">Traffic</h4>
-            <div class="small text-muted">November 2017</div>
-          </CCol>
-          <CCol sm="7" class="d-none d-md-block">
-            <CButton color="primary" class="float-right">
-              <CIcon name="cil-cloud-download"/>
-            </CButton>
-            <CButtonGroup class="float-right mr-3">
-              <CButton
-                color="outline-secondary"
-                v-for="(value, key) in ['Day', 'Month', 'Year']"
-                :key="key"
-                class="mx-0"
-                :pressed="value === selected ? true : false"
-                @click="selected = value"
-              >
-                {{value}}
-              </CButton>
-            </CButtonGroup>
-          </CCol>
-        </CRow>
-      </CCardBody>
-      <CCardFooter>
-        <CRow class="text-center">
-          <CCol md sm="12" class="mb-sm-2 mb-0">
-            <div class="text-muted">Visits</div>
-            <strong>29.703 Users (40%)</strong>
-            <CProgress
-              class="progress-xs mt-2"
-              :precision="1"
-              color="success"
-              :value="40"
+  <CCard>
+    <CCardBody>
+      <CRow>
+        <CCol sm="5">
+          <h4 id="traffic" class="card-title mb-0">List of Film's Length</h4>
+          <div class="small text-muted">November 2017</div>
+        </CCol>
+        <CCol sm="12">
+            <CChartBar
+              style="height:500px"
+              :datasets="[
+                {
+                  data:getCountLengthOnly(),
+                  backgroundColor: '#FFB2B2',
+                  label: 'Film Length (minutes)',
+                }
+              ]"
+              :labels=getLengthOnly()
+              :options="{ maintainAspectRatio: false }"
             />
-          </CCol>
-          <CCol md sm="12" class="mb-sm-2 mb-0 d-md-down-none">
-            <div class="text-muted">Unique</div>
-            <strong>24.093 Users (20%)</strong>
-            <CProgress
-              class="progress-xs mt-2"
-              :precision="1"
-              color="info"
-              :value="20"
-            />
-          </CCol>
-          <CCol md sm="12" class="mb-sm-2 mb-0">
-            <div class="text-muted">Pageviews</div>
-            <strong>78.706 Views (60%)</strong>
-            <CProgress
-              class="progress-xs mt-2"
-              :precision="1"
-              color="warning"
-              :value="60"
-            />
-          </CCol>
-          <CCol md sm="12" class="mb-sm-2 mb-0">
-            <div class="text-muted">New Users</div>
-            <strong>22.123 Users (80%)</strong>
-            <CProgress
-              class="progress-xs mt-2"
-              :precision="1"
-              color="danger"
-              :value="80"
-            />
-          </CCol>
-          <CCol md sm="12" class="mb-sm-2 mb-0 d-md-down-none">
-            <div class="text-muted">Bounce Rate</div>
-            <strong>Average Rate (40.15%)</strong>
-            <CProgress
-              class="progress-xs mt-2"
-              :precision="1"
-              :value="40"
-            />
-          </CCol>
-        </CRow>
-      </CCardFooter>
-    </CCard>
-    <CCard>
-      <CCardBody>
-        <CRow>
-          <CCol sm="5">
-            <h4 id="traffic" class="card-title mb-0">List of Film's Length</h4>
-            <div class="small text-muted">November 2017</div>
-          </CCol>
-          <CCol sm="12">
-              <CChartBar
-                style="height:500px"
-                :datasets="[
-                  {
-                    data:getCountLengthOnly(),
-                    backgroundColor: '#FFB2B2',
-                    label: 'Film Length (minutes)',
-                  }
-                ]"
-                :labels=getLengthOnly()
-                :options="{ maintainAspectRatio: false }"
-              />
-          </CCol>
-        </CRow>
-      </CCardBody>
-    </CCard>
-    <CRow>
-      <CCol sm="6">
-        <CCard>
-          <CCardBody>
-            <CRow>
-              <CCol sm="5">
-                <h4 id="" class="card-title mb-0">Chart of Film's Category</h4>
-                <div class="small text-muted">November 2017</div>
-              </CCol>
-              <CCol sm="12">
-                  <CChartDoughnut
-                    style="height:300px"
-                    :datasets="[
-                      {
-                        data:getOnlyCatCount(),
-                        backgroundColor: '#FFB2B2',
-                        label: 'Film Lengtxxh (minutes)',
-                      }
-                    ]"
-                    :labels=getOnlyCatName()
-                    :options="{ maintainAspectRatio: false }"
-                  />
-              </CCol>
-            </CRow>
-          </CCardBody>
-        </CCard>
-      </CCol>
-      <CCol sm="6">
-        <CCard>
-          <CCardBody>
-            <CRow>
-              <CCol sm="5">
-                <h4 id="" class="card-title mb-0">List of Most Payment Customer</h4>
-                <div class="small text-muted">November 2017</div>
-              </CCol>
-              <CCol sm="12">
-                  <CDataTable
-                    style="height:300px"
-                    :items="listTotalAmountPerId"
+        </CCol>
+      </CRow>
+    </CCardBody>
+  </CCard>
+  <CRow>
+    <CCol sm="6">
+      <CCard>
+        <CCardBody>
+          <CRow>
+            <CCol sm="5">
+              <h4 id="" class="card-title mb-0">Chart of Film's Category</h4>
+              <div class="small text-muted">November 2017</div>
+            </CCol>
+            <CCol sm="12">
+                <CChartDoughnut
+                  style="height:300px"
+                  :datasets="[
+                    {
+                      data:getOnlyCatCount(),
+                      backgroundColor: '#FFB2B2',
+                      label: 'Film Lengtxxh (minutes)',
+                    }
+                  ]"
+                  :labels=getOnlyCatName()
+                  :options="{ maintainAspectRatio: false }"
+                />
+            </CCol>
+          </CRow>
+        </CCardBody>
+      </CCard>
+    </CCol>
+    <CCol sm="6">
+      <CCard>
+        <CCardBody>
+          <CRow>
+            <CCol sm="12">
+              <CRow>
+                <CCol sm="5">
+                  <h4 id="" class="card-title mb-0">List of Most Payment Customer</h4>
+                  <div class="small text-muted">November 2017</div>
+                </CCol>
+                <CCol sm="7">
+                  <CLink
+                    class="text-white bg-info px-2"
+                    to="/customers"
+                    target="_blank"
                   >
-                  </CDataTable>
-              </CCol>
-            </CRow>
-          </CCardBody>
-        </CCard>
-      </CCol>
-    </CRow>
+                    List Customers
+                  </CLink>
+                </CCol>
+              </CRow>
+              
+              
+            </CCol>
+            <CCol sm="12">
+                <CDataTable
+                  style="height:300px"
+                  :items="listTotalAmountPerId"
+                >
+                </CDataTable>
+            </CCol>
+          </CRow>
+        </CCardBody>
+      </CCard>
+    </CCol>
+  </CRow>
     
   </div>
 </template>
