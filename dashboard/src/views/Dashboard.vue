@@ -111,8 +111,6 @@
                   </CLink>
                 </CCol>
               </CRow>
-              
-              
             </CCol>
             <CCol sm="12">
                 <CDataTable
@@ -120,6 +118,34 @@
                   :items="listTotalAmountPerId"
                 >
                 </CDataTable>
+            </CCol>
+          </CRow>
+        </CCardBody>
+      </CCard>
+    </CCol>
+  </CRow>
+  <CRow>
+    <CCol sm="6">
+      <CCard>
+        <CCardBody>
+          <CRow>
+            <CCol sm="5">
+              <h4 id="" class="card-title mb-0">Chart of Customer's Country</h4>
+              <div class="small text-muted">November 2017</div>
+            </CCol>
+            <CCol sm="12">
+                <CChartBar
+                  style="height:300px"
+                  :datasets="[
+                    {
+                      data:getCountryCount(),
+                      backgroundColor: '#FFB2B2',
+                      label: 'Country Count',
+                    }
+                  ]"
+                  :labels=getCountry()
+                  :options="{ maintainAspectRatio: false }"
+                />
             </CCol>
           </CRow>
         </CCardBody>
@@ -186,9 +212,12 @@ export default {
       axios.get('http://localhost:8000/api/getTotalPayment'),
 
       //total amount perID
-      axios.get('http://localhost:8000/api/getTotalMostAmountPerId')
+      axios.get('http://localhost:8000/api/getTotalMostAmountPerId'),
+
+      //customer's country pie chart
+      axios.get('http://localhost:8000/api/getCustomerCountryList')
     ])
-    .then(axios.spread((actorsRes, customerRes, lenghList, listCountCategory, getTotalPayment, getListTotalAmountPerId) => {
+    .then(axios.spread((actorsRes, customerRes, lenghList, listCountCategory, getTotalPayment, getListTotalAmountPerId, getCustomerCountryList) => {
       this.actors = actorsRes.data.data,
       this.countCustomer = customerRes.data.data.length
       //list film length 
@@ -205,6 +234,10 @@ export default {
 
       //totla amount per id
       this.listTotalAmountPerId = getListTotalAmountPerId.data.data
+
+      //customer's country list
+      this.customerCountryList = getCustomerCountryList.data.data
+      console.log(this.customerCountryList)
     }))
     
   },
@@ -253,7 +286,7 @@ export default {
       for (i = 0; i< this.listCountCategory.length; i++) {
         catName.push(this.listCountCategory[i]['name'])
       }
-      console.log(catName)
+      // console.log(catName)
       return catName
     },
     getOnlyCatCount() {
@@ -264,6 +297,25 @@ export default {
       }
       return catCount
     },
+
+    ////////////customer's country list api
+    //get customer's country 
+    getCountryCount() {
+      let countCountry = []
+      let i = 0
+      for(i = 0; i < this.customerCountryList.length; i++) {
+        countCountry.push(this.customerCountryList[i]['count'])
+      }
+      return countCountry
+    },
+    getCountry() {
+      let country = []
+      let i = 0
+      for(i = 0; i < this.customerCountryList.length; i++) {
+        country.push(this.customerCountryList[i]['country'])
+      }
+      return country
+    }
     
   },
   
