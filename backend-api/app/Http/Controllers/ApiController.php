@@ -7,8 +7,9 @@ use App\Models\Category;
 use App\Models\FilmCategory;
 use App\Models\Payment;
 use App\Models\Customer;
+use App\Models\Rental;
 
-
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 
 class ApiController extends Controller
@@ -80,4 +81,39 @@ class ApiController extends Controller
             'data' => $totalPayment
         ]);
     }
+
+    //rental API
+    public function  getRentalCount()
+    {
+        $totalRental = DB::table('rental')
+                    ->select(DB::raw('COUNT(rental_id)'))
+                    ->get();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Total rental',
+            'data' => $totalRental
+        ]);
+    }
+    //rental count perday
+    public function getRentalCountPerDay(Request $req)
+    {
+        //set validation
+        $validator = Validator::make($req->all(), [
+            'year' => 'required',
+        ]);
+        $countPerDay = DB::table('rental')
+                    ->select(DB::raw('DATE(rental_date), COUNT(rental_id)'))
+                    ->whereYear('rental_date', '=', $req->year)
+                    ->groupBy(DB::raw('DATE(rental_date)'))
+                    ->orderBy(DB::raw('DATE(rental_date)'))
+                    ->get();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Rental count perday',
+            'data' => $countPerDay
+        ]);
+    }
+    
 }

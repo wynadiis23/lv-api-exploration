@@ -35,3 +35,8 @@ Route::get('/getTotalPayment', [ApiController::class, 'getTotalPayment']);
 
 //country
 Route::get('/getCustomerCountryList', [ApiController::class, 'getCustomerCountryList']);
+
+//rental
+Route::get('/getRentalCount', [ApiController::class, 'getRentalCount']);
+//get rental count per day
+Route::get('/getRentalCountPerDay', [ApiController::class, 'getRentalCountPerDay']);
