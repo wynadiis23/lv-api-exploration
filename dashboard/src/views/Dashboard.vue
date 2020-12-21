@@ -12,7 +12,7 @@
     </CCol>
     <CCol col="12" sm="4">
       <CWidgetIcon
-        :header=countCustomer
+        :header="countCustomer"
         text="Customer"
         color="success"
       >
@@ -21,7 +21,7 @@
     </CCol>
     <CCol col="12" sm="4">
       <CWidgetIcon
-        :header=totalPayment
+        :header="totalPayment"
         text="Total Payment"
         color="info"
       >
@@ -30,10 +30,10 @@
     </CCol>
   </CRow>
   <CRow>
-    <CCol col="12" sm="6">
+    <CCol col="12" sm="4">
       <CWidgetIcon
-        header="$1.999,50"
-        text="Income"
+        :header="rentalCount"
+        text="Rental"
         color="primary"
       >
         <CIcon name="cil-settings"/>
@@ -186,7 +186,8 @@ export default {
     return {
       actors: null,
       countCustomer: null,
-      totalPayment: null
+      totalPayment: null,
+      rentalCount: null
       
     }
   },
@@ -215,9 +216,12 @@ export default {
       axios.get('http://localhost:8000/api/getTotalMostAmountPerId'),
 
       //customer's country pie chart
-      axios.get('http://localhost:8000/api/getCustomerCountryList')
+      axios.get('http://localhost:8000/api/getCustomerCountryList'),
+
+      //rental
+      axios.get('http://localhost:8000/api/getRentalCount')
     ])
-    .then(axios.spread((actorsRes, customerRes, lenghList, listCountCategory, getTotalPayment, getListTotalAmountPerId, getCustomerCountryList) => {
+    .then(axios.spread((actorsRes, customerRes, lenghList, listCountCategory, getTotalPayment, getListTotalAmountPerId, getCustomerCountryList, getRentalCount) => {
       this.actors = actorsRes.data.data,
       this.countCustomer = customerRes.data.data.length
       //list film length 
@@ -237,7 +241,11 @@ export default {
 
       //customer's country list
       this.customerCountryList = getCustomerCountryList.data.data
-      console.log(this.customerCountryList)
+      // console.log(this.customerCountryList)
+
+      //rental
+      this.rentalCount = getRentalCount.data.data[0].count
+
     }))
     
   },
@@ -315,7 +323,9 @@ export default {
         country.push(this.customerCountryList[i]['country'])
       }
       return country
-    }
+    },
+    /////////rental
+    ////rental count
     
   },
   
