@@ -151,6 +151,32 @@
         </CCardBody>
       </CCard>
     </CCol>
+    <CCol sm="6">
+      <CCard>
+        <CCardBody>
+          <CRow>
+            <CCol sm="5">
+              <h4 id="" class="card-title mb-0">Chart of Rental</h4>
+              <div class="small text-muted">November 2017</div>
+            </CCol>
+            <CCol sm="12">
+                <CChartLine
+                  style="height:300px"
+                  :datasets="[
+                    {
+                      data:getCountryCount(),
+                      backgroundColor: '#FFB2B2',
+                      label: 'Country Count',
+                    }
+                  ]"
+                  :labels=getCountry()
+                  :options="{ maintainAspectRatio: false }"
+                />
+            </CCol>
+          </CRow>
+        </CCardBody>
+      </CCard>
+    </CCol>
   </CRow>
     
   </div>
@@ -184,6 +210,7 @@ export default {
   },
   data () {
     return {
+
       actors: null,
       countCustomer: null,
       totalPayment: null,
